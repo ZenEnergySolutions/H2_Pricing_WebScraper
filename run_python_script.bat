@@ -1,0 +1,2 @@
+"C:\Users\tdickens\OneDrive - Hydrogen Technology and Engineering Corporation\02_Models-Data\Web Scraping Data\WebScraper\venv\Scrips\python.exe" "C:\Users\tdickens\OneDrive - Hydrogen Technology and Engineering Corporation\02_Models-Data\Web Scraping Data\WebScraper\main.py"
+pause
