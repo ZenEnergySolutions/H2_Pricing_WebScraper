@@ -35,16 +35,18 @@ async def get_table():
     now = datetime.now().strftime("%Y-%m-%d_%H:%M")
     df['Datetime'] = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    if os.path.exists('./webscrape_data') and os.path.isfile('./webscrape_data/h2_ca.xlsx'):
-        doc = pd.read_excel('./webscrape_data/h2_ca.xlsx')
+    CA_XLSX = './webscrape_data/h2_ca.xlsx'
 
-        with pd.ExcelWriter('./webscrape_data/h2_ca.xlsx') as writer:
+    if os.path.exists('./webscrape_data') and os.path.isfile(CA_XLSX):
+        doc = pd.read_excel(CA_XLSX)
+
+        with pd.ExcelWriter(CA_XLSX) as writer:
             new_doc = pd.concat([doc, df])
             new_doc.to_excel(writer, sheet_name='Data', index=False)
 
     else:
         os.mkdir('webscrape_data')
-        df.to_excel('./webscrape_data/h2_ca.xlsx', index=False)
+        df.to_excel(CA_XLSX, index=False)
 
     return r.status_code
 
@@ -63,13 +65,15 @@ def get_euro_stations():
     for df in [df_350_L, df_350_S, df_700]:
         df['Datetime'] = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    if os.path.exists('./webscrape_data') and os.path.isfile('./webscrape_data/h2_live_eur.xlsx'):
+    EUR_XLSX = './webscrape_data/h2_live_eur.xlsx'
 
-        doc_350_S = pd.read_excel('./webscrape_data/h2_live_eur.xlsx', sheet_name='350 Small', )
-        doc_350_L = pd.read_excel('./webscrape_data/h2_live_eur.xlsx', sheet_name='350 Large', )
-        doc_700 = pd.read_excel('./webscrape_data/h2_live_eur.xlsx', sheet_name='700 Small', )
+    if os.path.exists('./webscrape_data') and os.path.isfile(EUR_XLSX):
 
-        with pd.ExcelWriter('./webscrape_data/h2_live_eur.xlsx') as writer:
+        doc_350_S = pd.read_excel(EUR_XLSX, sheet_name='350 Small', )
+        doc_350_L = pd.read_excel(EUR_XLSX, sheet_name='350 Large', )
+        doc_700 = pd.read_excel(EUR_XLSX, sheet_name='700 Small', )
+
+        with pd.ExcelWriter(EUR_XLSX) as writer:
             df_350_S = pd.concat([doc_350_S, df_350_S])
             df_350_S.to_excel(writer, sheet_name='350 Small', index=False)
 
@@ -80,7 +84,7 @@ def get_euro_stations():
             df_700.to_excel(writer, sheet_name='700 Small', index=False)
 
     else:
-        with pd.ExcelWriter('./webscrape_data/h2_live_eur.xlsx') as writer:
+        with pd.ExcelWriter(EUR_XLSX) as writer:
             df_350_S.to_excel(writer, sheet_name='350 Small', index=False)
             df_350_L.to_excel(writer, sheet_name='350 Large', index=False)
             df_700.to_excel(writer, sheet_name='700 Small', index=False)
